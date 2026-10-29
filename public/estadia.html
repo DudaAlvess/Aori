@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#3E202D">
+  <meta name="description" content="Conheça os detalhes da sua próxima pausa em Santa Catarina e imagine as datas da sua estadia com a Aori.">
+  <title>Sua estadia em Santa Catarina — Aori</title>
+  <link rel="icon" href="/assets/brand/icons/favicon.ico" sizes="any">
+  <link rel="icon" href="/assets/brand/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/brand/icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="/assets/styles/aori-brand.css">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/estadia.css">
+  <script type="module" src="/estadia.js"></script>
+</head>
+<body class="property-page">
+  <a class="skip-link" href="#property-main">Pular para o conteúdo</a>
+  <header class="property-header">
+    <div class="property-container property-header-inner">
+      <a class="brand" href="/" aria-label="Aori — início"><img class="aori-logo" src="/assets/brand/logo/aori-logo-original.svg" alt="Aori" width="160" height="50"></a>
+      <span class="property-header-note">SANTA CATARINA, NO SEU TEMPO.</span>
+      <a class="property-back" href="/#explorar"><span aria-hidden="true">←</span> Explore outros lugares</a>
+    </div>
+  </header>
+
+  <main id="property-main" class="property-container">
+    <p id="property-loading" class="property-loading" role="status">Preparando seu lugar…</p>
+    <section id="property-not-found" class="property-not-found" hidden>
+      <p class="eyebrow">VAMOS ENCONTRAR OUTRO CAMINHO?</p>
+      <h1>Esse lugar não foi encontrado.</h1>
+      <p>Volte à seleção de estadias e encontre a sua próxima pausa em Santa Catarina.</p>
+      <a class="button-primary" href="/#explorar">Explorar os lugares <span aria-hidden="true">↗</span></a>
+    </section>
+
+    <div id="property-content" hidden>
+      <nav class="property-breadcrumb" aria-label="Caminho da página"><a href="/#explorar">Santa Catarina</a><span aria-hidden="true">/</span><span id="property-region"></span><span aria-hidden="true">/</span><span id="property-breadcrumb-name" aria-current="page"></span></nav>
+      <div class="property-title-row">
+        <div><p class="eyebrow" id="property-tag"></p><h1 id="property-title"></h1><p class="property-location" id="property-location"></p></div>
+        <button class="property-save" id="property-save" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg><span id="property-save-label">Salvar lugar</span></button>
+      </div>
+      <div class="property-gallery" id="property-gallery" aria-label="Galeria ilustrativa da estadia"></div>
+      <div class="property-gallery-note"><span>Um lugar para imaginar a sua próxima pausa.</span><span>Estadia fictícia · Fotografias ilustrativas</span></div>
+
+      <div class="property-layout">
+        <div class="property-details">
+          <section class="property-overview property-section" aria-labelledby="property-overview-title">
+            <p class="eyebrow" id="property-type"></p><h2 id="property-overview-title">Um convite a ficar.</h2><p class="property-capacity" id="property-capacity"></p><div class="property-description" id="property-description"></div>
+          </section>
+
+          <section id="calendario" class="property-section property-calendar-section" aria-labelledby="calendar-title">
+            <div class="property-section-heading"><div><p class="eyebrow">ESCOLHA O SEU TEMPO</p><h2 id="calendar-title">Quando vamos estar?</h2></div><button class="property-clear-dates" type="button" id="clear-property-dates">Limpar datas</button></div>
+            <p class="property-calendar-description">Selecione a chegada e depois a saída. Você também pode preencher as datas no resumo da estadia.</p>
+            <div class="property-calendar-toolbar"><button type="button" id="calendar-previous" class="property-month-button" aria-label="Mês anterior">←</button><p id="calendar-selection" aria-live="polite">Escolha uma data de chegada.</p><button type="button" id="calendar-next" class="property-month-button" aria-label="Próximo mês">→</button></div>
+            <div id="property-calendars" class="property-calendars" aria-label="Seleção das datas da estadia"></div>
+            <p class="property-calendar-legend"><span></span>Período escolhido <span class="property-legend-disabled"></span>Data passada</p>
+            <p class="property-calendar-disclaimer">Simulação de datas. Os dias exibidos não representam disponibilidade real.</p>
+          </section>
+
+          <section class="property-section" aria-labelledby="amenities-title"><p class="eyebrow">CUIDADO NOS DETALHES</p><h2 id="amenities-title">Para se sentir bem.</h2><ul class="property-amenities" id="property-amenities"></ul></section>
+          <section class="property-section property-place" aria-labelledby="place-title"><p class="eyebrow">O LUGAR AO REDOR</p><h2 id="place-title"></h2><p id="property-location-description"></p><div class="property-region-card"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 6-8 11-8 11S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg><div><strong id="property-region-location"></strong><span>Santa Catarina · Brasil</span></div></div><p class="property-small-note">Esta acomodação é fictícia. Não há endereço de hospedagem real associado a esta prévia.</p></section>
+          <section class="property-section property-rules" aria-labelledby="rules-title"><p class="eyebrow">ANTES DE CHEGAR</p><h2 id="rules-title">Bom saber.</h2><ul id="property-rules"></ul><p class="property-small-note">Regras ilustrativas para avaliar a experiência. As condições de uma reserva real serão informadas junto ao catálogo definitivo.</p></section>
+        </div>
+
+        <aside class="property-booking" aria-labelledby="booking-title">
+          <div class="property-booking-card">
+            <p class="eyebrow">SUA PRÓXIMA PAUSA</p><h2 id="booking-title">Um tempo para você.</h2>
+            <p class="property-night-price"><strong id="property-night-price"></strong><span> / noite</span></p><p class="property-price-note">Valor ilustrativo · Simulação de datas</p>
+            <form id="property-booking-form" class="property-booking-form">
+              <div class="property-date-fields"><div><label for="property-checkin">Chegada</label><input id="property-checkin" name="checkin" type="date" required></div><div><label for="property-checkout">Saída</label><input id="property-checkout" name="checkout" type="date" required></div></div>
+              <div class="property-guests-field"><label for="property-guests">Quem vem?</label><select id="property-guests" name="guests"></select></div>
+              <a class="property-calendar-link" href="#calendario">Escolher pelo calendário <span aria-hidden="true">↗</span></a>
+              <div class="property-price-summary" id="property-price-summary"><p class="property-summary-hint">Escolha as datas para imaginar a sua estadia.</p></div>
+              <button class="property-check-button" type="submit">Conferir período <span aria-hidden="true">→</span></button>
+              <p id="property-booking-feedback" class="property-booking-feedback" role="status" aria-live="polite"></p>
+            </form>
+            <div class="property-booking-note"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/></svg><p>Uma prévia para explorar. Reservas e pagamentos ainda não estão conectados.</p></div>
+          </div>
+          <div class="property-aside-signature"><img src="/assets/brand/symbol/aori-symbol-original.svg" alt="" width="32" height="30"><p>Vá pelo lugar.<br>Fique pelo que sente.</p></div>
+        </aside>
+      </div>
+    </div>
+    <noscript><p class="property-loading">Ative o JavaScript para conhecer a estadia e selecionar suas datas. <a href="/">Voltar para a Aori.</a></p></noscript>
+  </main>
+  <footer class="property-footer"><div class="property-container"><a href="/#explorar">← Outros lugares para estar</a><p>Encontre um lugar para estar. Um lugar que fica com você.</p><span>© 2026 Aori · Prévia demonstrativa</span></div></footer>
+</body>
+</html>

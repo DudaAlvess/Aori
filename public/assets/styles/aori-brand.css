@@ -1,0 +1,33 @@
+/* Aori: tokens aprovados. Nao aplicar filtros nem cores planas na logo. */
+:root {
+  --aori-ameixa: #3E202D;
+  --aori-creme: #F8F3EF;
+  --aori-argila: #BE8B83;
+  --aori-salvia: #929581;
+  --aori-areia: #D9C1B4;
+  --aori-font-heading: "DM Serif Display", Georgia, serif;
+  --aori-font-body: "Manrope", system-ui, sans-serif;
+  --aori-font-size-body: 1rem;
+  --aori-font-size-secondary: .875rem;
+  --aori-font-size-button: .9375rem;
+  --aori-font-size-caption: .75rem;
+}
+/* As fontes NAO acompanham o pacote. Carregue-as separadamente no projeto. */
+.aori-logo { display: block; max-width: 100%; height: auto; }
+.aori-body { font-family: var(--aori-font-body); font-size: 1rem; line-height: 1.625; font-weight: 400; }
+.aori-heading { font-family: var(--aori-font-heading); font-weight: 400; }
+/* Escala aprovada; entrelinhas de titulos e breakpoint abaixo sao sugestoes tecnicas. */
+.aori-h1 { font-size: 4rem; line-height: 1.1; }
+.aori-h2 { font-size: 2.5rem; line-height: 1.2; }
+.aori-h3 { font-size: 1.75rem; line-height: 1.25; }
+.aori-h4 { font-family: var(--aori-font-body); font-size: 1.25rem; font-weight: 600; line-height: 1.4; }
+.aori-price { font-family: var(--aori-font-body); font-size: 1.75rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.aori-button { font-family: var(--aori-font-body); font-size: .9375rem; font-weight: 600; }
+.aori-filter { font-family: var(--aori-font-body); font-size: .875rem; font-weight: 500; }
+@media (max-width: 47.99rem) {
+  .aori-h1 { font-size: 2.375rem; }
+  .aori-h2 { font-size: 1.875rem; }
+  .aori-h3 { font-size: 1.5rem; }
+  .aori-h4 { font-size: 1.125rem; }
+  .aori-price { font-size: 1.5rem; }
+}

@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#3E202D">
+  <meta name="description" content="Encontre um lugar para estar em Santa Catarina. Descubra a proposta da Aori: hospedagens com alma, entre a serra, o campo e o mar catarinenses.">
+  <title>Aori — Encontre um lugar para estar</title>
+  <link rel="icon" href="/assets/brand/icons/favicon.ico" sizes="any">
+  <link rel="icon" href="/assets/brand/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/brand/icons/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="stylesheet" href="/assets/styles/aori-brand.css">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#principal">Pular para o conteúdo</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/" aria-label="Aori — início"><img class="aori-logo" src="/assets/brand/logo/aori-logo-original.svg" alt="Aori" width="178" height="56"></a>
+      <nav class="desktop-nav" aria-label="Navegação principal">
+        <a class="nav-active" href="#explorar">Explore os lugares</a>
+        <a href="#essencia">A essência Aori</a>
+        <a href="#como-funciona">Como funciona</a>
+      </nav>
+      <div class="header-actions">
+        <button class="saved-button" id="favorites-toggle" type="button" aria-pressed="false" aria-label="Mostrar meus lugares favoritos">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg>
+          <span class="saved-label">Meus lugares</span><span id="favorites-count" class="saved-count">0</span>
+        </button>
+        <button id="mobile-menu-toggle" class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span></button>
+      </div>
+    </div>
+    <nav id="mobile-menu" class="mobile-menu" aria-label="Navegação mobile" hidden>
+      <a href="#explorar">Explore os lugares</a><a href="#essencia">A essência Aori</a><a href="#como-funciona">Como funciona</a>
+    </nav>
+  </header>
+
+  <main id="principal">
+    <section class="hero container" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="eyebrow-line"></span>MAIS PRESENÇA. MENOS PRESSA.</p>
+        <h1 id="hero-title">Encontre um<br> lugar para <em>estar.</em></h1>
+        <p class="hero-subtitle">Um lugar que fica com você.</p>
+        <p class="hero-description">Em Santa Catarina, entre a serra, o campo e o mar, existe uma pausa com o seu nome. Descubra lugares que convidam a viver o agora.</p>
+        <a class="text-link hero-link" href="#explorar">Encontre a sua próxima pausa <span aria-hidden="true">↗</span></a>
+        <div class="hero-footnote"><span class="small-sun" aria-hidden="true">✳</span><span>Vá pelo lugar.<br><strong>Fique pelo que sente.</strong></span></div>
+      </div>
+      <div class="hero-visual">
+        <img class="hero-photo" src="/assets/photos/hero-retreat.jpg" alt="Um refúgio acolhedor para desacelerar, cercado pela natureza" width="1200" height="1400" fetchpriority="high">
+        <div class="photo-caption"><span>SEU PRÓXIMO RESPIRO</span><p>O melhor destino<br>é se sentir bem.</p></div>
+        <span class="photo-index" aria-hidden="true">01 / INSPIRAÇÃO</span>
+      </div>
+    </section>
+
+    <div class="search-wrap container">
+      <form class="search-form" id="search-form" aria-label="Encontre uma hospedagem">
+        <div class="search-field destination-field">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 6-8 11-8 11S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          <div><label for="destination">Para onde vamos?</label><select id="destination" name="destination"><option value="">Um lugar que combine com você</option><option value="serra">O aconchego da serra</option><option value="praia">A leveza do mar</option><option value="campo">A calma do campo</option></select></div>
+        </div>
+        <div class="search-field">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></svg>
+          <div><label for="checkin">Chegada</label><input id="checkin" name="checkin" type="date" aria-label="Data de chegada"></div>
+        </div>
+        <div class="search-field checkout-field"><div><label for="checkout">Saída</label><input id="checkout" name="checkout" type="date" aria-label="Data de saída"></div></div>
+        <div class="search-field guests-field">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="7" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3M16 4a3 3 0 0 1 0 6M17 14a5 5 0 0 1 4 4v3"/></svg>
+          <div><label for="guests">Quem vem?</label><select id="guests" name="guests"><option value="2">2 hóspedes</option><option value="1">1 hóspede</option><option value="3">3 hóspedes</option><option value="4">4 hóspedes</option><option value="5">5 hóspedes</option><option value="6">6 hóspedes</option></select></div>
+        </div>
+        <button class="primary-button search-button" type="submit"><span>Buscar lugares</span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg></button>
+      </form>
+      <p id="search-feedback" class="search-feedback" aria-live="polite"></p>
+    </div>
+
+    <section id="explorar" class="explore-section container" aria-labelledby="explore-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">LUGARES QUE ACOLHEM EM SANTA CATARINA</p><h2 id="explore-title">Qual é o seu ritmo agora?</h2></div>
+        <p>Um fim de semana sem despertador.<br>Uma viagem para lembrar de você.</p>
+      </div>
+      <div class="destination-tabs" role="group" aria-label="Escolha um cenário">
+        <button class="destination-chip active" data-destination="" type="button" aria-pressed="true">Todos os lugares <span>↗</span></button>
+        <button class="destination-chip" data-destination="serra" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m2 20 7-13 5 8 3-5 5 10H2ZM6 13l3 2 2-3"/></svg>O aconchego da serra</button>
+        <button class="destination-chip" data-destination="praia" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 16c3-4 7 4 10 0s7 4 10 0M2 21c3-4 7 4 10 0s7 4 10 0"/><circle cx="16" cy="6" r="3"/></svg>A leveza do mar</button>
+        <button class="destination-chip" data-destination="campo" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21V9M12 15C4 15 4 6 4 6s8 0 8 9ZM12 12c0-8 8-9 8-9s1 9-8 9Z"/></svg>A calma do campo</button>
+      </div>
+      <div class="catalog-toolbar">
+        <div class="interest-filters" role="group" aria-label="O que você procura?">
+          <button class="filter-chip active" data-filter="all" type="button" aria-pressed="true">Para você</button>
+          <button class="filter-chip" data-filter="natureza" type="button" aria-pressed="false">Perto da natureza</button>
+          <button class="filter-chip" data-filter="design" type="button" aria-pressed="false">Design com alma</button>
+          <button class="filter-chip" data-filter="a-dois" type="button" aria-pressed="false">A dois</button>
+          <button class="filter-chip" data-filter="familia" type="button" aria-pressed="false">Em boa companhia</button>
+        </div>
+        <span class="result-label"><span id="results-count">6 lugares</span> para descobrir</span>
+      </div>
+      <div id="stays-grid" class="stays-grid" aria-live="polite" aria-label="Hospedagens demonstrativas"></div>
+      <noscript><p>Ative o JavaScript para explorar os lugares e usar os filtros desta prévia.</p></noscript>
+      <div class="catalog-bottom"><p><span class="demo-dot"></span>Seleção demonstrativa · lugares e valores ilustrativos</p><button id="clear-filters" class="text-link" type="button">Recomeçar a busca <span aria-hidden="true">↺</span></button></div>
+    </section>
+
+    <section class="essence-section" id="essencia" aria-labelledby="essence-title">
+      <div class="container essence-layout">
+        <div class="essence-photo-wrap"><img src="/assets/photos/stay-bedroom.jpg" alt="Luz natural e detalhes que tornam uma estadia acolhedora" width="1000" height="1100" loading="lazy"><span class="image-note">O LUXO DE SE SENTIR EM CASA.</span></div>
+        <div class="essence-copy"><p class="eyebrow">A ESSÊNCIA AORI</p><h2 id="essence-title">Viajar é ir.<br><em>Estar é sentir.</em></h2><p>A gente acredita nas viagens que aproximam. Da natureza, das pessoas e de quem você é quando a rotina dá uma pausa.</p><p>Na Aori, nossa proposta é reunir lugares com personalidade, cuidado nos detalhes e espaço para viver o tempo de outro jeito.</p><div class="essence-signature"><img src="/assets/brand/symbol/aori-symbol-original.svg" alt="" width="46" height="43" loading="lazy"><span>Menos roteiro.<br>Mais encontro.</span></div><a class="text-link" href="#como-funciona">Conheça o jeito Aori <span aria-hidden="true">↗</span></a></div>
+      </div>
+    </section>
+
+    <section class="how-section container" id="como-funciona" aria-labelledby="how-title">
+      <div class="section-heading"><div><p class="eyebrow">NO SEU TEMPO, DO SEU JEITO</p><h2 id="how-title">Sua pausa começa simples.</h2></div><a class="text-link" href="#explorar">Vamos encontrar seu lugar <span aria-hidden="true">↗</span></a></div>
+      <div class="steps-grid">
+        <article class="step"><span class="step-number">01</span><h3>Sinta o que você precisa.</h3><p>O silêncio da serra? Os pés na areia? Comece pelo cenário que combina com o seu momento.</p></article>
+        <article class="step"><span class="step-number">02</span><h3>Encontre o seu lugar.</h3><p>Explore os detalhes e salve os seus favoritos. Alguns lugares já acolhem antes mesmo de chegar.</p></article>
+        <article class="step"><span class="step-number">03</span><h3>Abra espaço para estar.</h3><p>Imagine os dias com mais presença. Nesta prévia, você pode conhecer e comparar as opções.</p></article>
+      </div>
+    </section>
+
+    <section class="faq-section container" aria-labelledby="faq-title"><div><p class="eyebrow">ANTES DE IR</p><h2 id="faq-title">Um pouco mais<br>sobre esta experiência.</h2><p>Clareza também faz parte de acolher.</p></div><div class="faq-list">
+      <details><summary>Já posso fazer uma reserva?<span aria-hidden="true">+</span></summary><p>Esta é uma primeira versão para explorar a experiência Aori. Os lugares e valores são ilustrativos; reservas, pagamentos e disponibilidade real ainda não estão conectados.</p></details>
+      <details><summary>Como funcionam os favoritos?<span aria-hidden="true">+</span></summary><p>Toque no coração de um lugar para guardar sua inspiração. Seus favoritos ficam salvos neste navegador e podem ser vistos em “Meus lugares”, no topo da página.</p></details>
+      <details><summary>As datas mostram disponibilidade real?<span aria-hidden="true">+</span></summary><p>A busca permite escolher datas, cenário e número de hóspedes. Nesta prévia, as datas apenas validam o período da viagem; não consultam a agenda de uma hospedagem.</p></details>
+    </div></section>
+
+    <section class="closing-section"><div class="container closing-inner"><div><p class="eyebrow">QUANDO FOI A ÚLTIMA VEZ QUE VOCÊ SÓ…</p><h2>esteve?</h2></div><a href="#explorar" class="light-button">Encontre um lugar para estar <span aria-hidden="true">↗</span></a></div></section>
+  </main>
+
+  <footer class="site-footer"><div class="container"><div class="footer-top"><a class="brand" href="#principal" aria-label="Aori — voltar ao início"><img class="aori-logo" src="/assets/brand/logo/aori-logo-original.svg" alt="Aori" width="156" height="49" loading="lazy"></a><p>Encontre um lugar para estar.<br>Um lugar que fica com você.</p><nav aria-label="Navegação do rodapé"><a href="#explorar">Explore os lugares</a><a href="#essencia">A essência Aori</a><a href="#como-funciona">Como funciona</a></nav></div><div class="footer-bottom"><span>© 2026 Aori · Feito para estar.</span><span>Prévia local · Conteúdo demonstrativo</span><a href="#principal">Voltar ao topo ↑</a></div></div></footer>
+
+  <dialog id="stay-dialog" class="stay-dialog" aria-label="Detalhes da hospedagem"><button type="button" class="dialog-close" data-close-dialog aria-label="Fechar detalhes">×</button><div id="stay-dialog-content"></div></dialog>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "id": "/",
+  "name": "Aori",
+  "short_name": "Aori",
+  "description": "Encontre um lugar para estar. Um lugar que fica com você.",
+  "lang": "pt-BR",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F8F3EF",
+  "theme_color": "#3E202D",
+  "icons": [
+    { "src": "/assets/brand/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/brand/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/brand/icons/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/assets/brand/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

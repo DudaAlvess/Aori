@@ -1,0 +1,13 @@
+{
+  "name": "aori",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Prévia local da experiência Aori, com a identidade original aprovada.",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "start": "node scripts/serve.mjs",
+    "check": "node --check public/app.js && node --check public/stays.js && node --check public/estadia.js && node --check scripts/serve.mjs"
+  },
+  "engines": { "node": ">=20" }
+}
