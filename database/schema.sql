@@ -56,4 +56,35 @@ CREATE TABLE IF NOT EXISTS Favoritos (
     Criado_Em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (ID_Cliente, ID_Hospedagem)
 );
-PRAGMA user_version = 1;
+
+
+-- Reservas simuladas vinculadas ao cliente e à hospedagem.
+CREATE TABLE IF NOT EXISTS Reservas (
+    ID INTEGER PRIMARY KEY,
+    ID_Cliente INTEGER NOT NULL
+        REFERENCES Clientes(ID) ON DELETE CASCADE,
+    ID_Hospedagem TEXT NOT NULL
+        REFERENCES Hospedagens(ID),
+    Data_Entrada TEXT NOT NULL CHECK (
+        length(Data_Entrada) = 10
+        AND date(Data_Entrada, '+0 days') IS NOT NULL
+        AND date(Data_Entrada, '+0 days') = Data_Entrada
+    ),
+    Data_Saida TEXT NOT NULL CHECK (
+        length(Data_Saida) = 10
+        AND date(Data_Saida, '+0 days') IS NOT NULL
+        AND date(Data_Saida, '+0 days') = Data_Saida
+    ),
+    Hospedes INTEGER NOT NULL CHECK (Hospedes > 0),
+    Criado_Em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CHECK (Data_Saida > Data_Entrada)
+);
+
+CREATE INDEX IF NOT EXISTS idx_reservas_cliente
+    ON Reservas (ID_Cliente, Criado_Em);
+
+CREATE INDEX IF NOT EXISTS idx_reservas_disponibilidade
+    ON Reservas (ID_Hospedagem, Data_Entrada, Data_Saida);
+
+
+PRAGMA user_version = 2;

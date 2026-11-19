@@ -128,6 +128,8 @@ if (!stay) {
   const calendars = document.querySelector('#property-calendars');
   const previous = document.querySelector('#calendar-previous');
   const next = document.querySelector('#calendar-next');
+  const submitButton = form.querySelector('button[type="submit"]');
+  let bookingPending = false;
   const today = stamp(new Date());
   const todayDate = parseDate(today);
   const currentMonth = new Date(todayDate.getFullYear(), todayDate.getMonth(), 1, 12);
@@ -272,19 +274,167 @@ if (!stay) {
   });
   checkout.addEventListener('input', () => update());
   guests.addEventListener('change', () => update());
-  form.addEventListener('submit', event => {
+  form.addEventListener('submit', async event => {
     event.preventDefault();
+
+    if (bookingPending) return;
+
     if (!validPeriod()) {
-      feedback.textContent = 'Escolha uma chegada a partir de hoje e uma saída posterior à chegada.';
+      feedback.textContent =
+        'Escolha uma chegada a partir de hoje e uma saída posterior à chegada.';
       feedback.classList.add('is-error');
       return;
     }
-    const nights = nightCount(checkin.value, checkout.value);
+
+    bookingPending = true;
+    submitButton.disabled = true;
     feedback.classList.remove('is-error');
-    feedback.textContent = `Seu período: ${shortDate.format(parseDate(checkin.value))} a ${shortDate.format(parseDate(checkout.value))}, ${nights} ${nights === 1 ? 'noite' : 'noites'}, ${guests.value} ${Number(guests.value) === 1 ? 'hóspede' : 'hóspedes'}. Total ilustrativo: ${money.format(stay.price * nights)}. Esta é uma simulação; nenhuma reserva foi criada e nenhum pagamento foi realizado.`;
+    feedback.textContent = 'Preparando sua reserva...';
+
+    try {
+      const user = await account.ensureUser(
+        'Entre ou crie sua conta para registrar uma reserva simulada.'
+      );
+
+      if (!user) {
+        feedback.textContent = 'Entre na sua conta para continuar.';
+        return;
+      }
+
+      const reservationData = {
+        stayId: stay.id,
+        checkin: checkin.value,
+        checkout: checkout.value,
+        guests: Number(guests.value)
+      };
+
+      const response = await fetch('/api/reservations', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(reservationData)
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.error || 'Não foi possível registrar sua reserva.'
+        );
+      }
+
+      const nights = nightCount(
+        reservationData.checkin,
+        reservationData.checkout
+      );
+
+      feedback.classList.remove('is-error');
+
+      feedback.textContent =
+        `Reserva simulada #${data.reservation.id} registrada! ` +
+        `${nights} ${nights === 1 ? 'noite' : 'noites'}, ` +
+        `${reservationData.guests} ` +
+        `${reservationData.guests === 1 ? 'hóspede' : 'hóspedes'}. ` +
+        'Nenhum pagamento foi realizado.';
+
+    } catch (error) {
+      feedback.classList.add('is-error');
+      feedback.textContent = error.message ||
+        'Não foi possível concluir sua reserva.';
+    } finally {
+      bookingPending = false;
+      submitButton.disabled = false;
+    }
+  });
+
+
+  const reservationsButton = document.querySelector('#show-reservations');
+  const reservationsFeedback = document.querySelector('#reservations-feedback');
+  const reservationsList = document.querySelector('#reservations-list');
+
+  let reservationsOwner = account.user?.id ?? null;
+
+  account.subscribe(() => {
+    const currentOwner = account.user?.id ?? null;
+
+    if (currentOwner !== reservationsOwner) {
+      reservationsOwner = currentOwner;
+      reservationsList.replaceChildren();
+      reservationsFeedback.textContent = '';
+    }
+  });
+
+  reservationsButton.addEventListener('click', async () => {
+    if (reservationsButton.disabled) return;
+
+    reservationsButton.disabled = true;
+    reservationsFeedback.textContent = 'Consultando reservas...';
+    reservationsList.replaceChildren();
+
+    try {
+      const user = await account.ensureUser(
+        'Entre na sua conta para consultar suas reservas simuladas.'
+      );
+
+      if (!user) {
+        reservationsFeedback.textContent = 'Entre na sua conta para continuar.';
+        return;
+      }
+
+      const response = await fetch('/api/reservations', {
+        credentials: 'same-origin',
+        cache: 'no-store'
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Não foi possível consultar as reservas.');
+      }
+
+      if (account.user?.id !== user.id) {
+        reservationsFeedback.textContent = 'A conta mudou. Consulte novamente.';
+        return;
+      }
+
+      const reservations = data.reservations;
+
+      if (reservations.length === 0) {
+        reservationsFeedback.textContent = 'Você ainda não possui reservas simuladas.';
+        return;
+      }
+
+      reservationsFeedback.textContent =
+        `${reservations.length} ${reservations.length === 1 ? 'reserva encontrada' : 'reservas encontradas'}.`;
+
+      for (const reservation of reservations) {
+        const item = make('li', 'property-reservation-item');
+
+        const name = make('strong', '', reservation.stayName);
+        const dates = make(
+          'p',
+          '',
+          `${reservation.checkin} a ${reservation.checkout}`
+        );
+        const guestsText = make(
+          'p',
+          '',
+          `${reservation.guests} ${reservation.guests === 1 ? 'hóspede' : 'hóspedes'}`
+        );
+
+        item.append(name, dates, guestsText);
+        reservationsList.append(item);
+      }
+    } catch (error) {
+      reservationsFeedback.textContent =
+        error.message || 'Não foi possível consultar suas reservas.';
+    } finally {
+      reservationsButton.disabled = false;
+    }
   });
 
   update();
-  loading.hidden = true;
-  content.hidden = false;
+loading.hidden = true;
+content.hidden = false;
+
 }

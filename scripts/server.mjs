@@ -3,12 +3,36 @@ import { readFile, stat, realpath } from 'node:fs/promises';
 import { resolve, relative, extname, isAbsolute } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { openDatabase, hashPassword, verifyPassword, validCpf, newSession, digest, sessionAge } from './database.mjs';
+import { stays } from '../public/stays.js';
 
 const root=fileURLToPath(new URL('../public/',import.meta.url));
 const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp','.ico':'image/x-icon','.ttf':'font/ttf','.woff2':'font/woff2','.webmanifest':'application/manifest+json'};
 const failure=(status,message)=>Object.assign(new Error(message),{status});
 const clean=(value,max=200)=>typeof value==='string'?value.trim().slice(0,max+1):'';
 const validEmail=email=>email.length<=254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+function validReservationDate(value) {
+  if (typeof value !== 'string' ||
+      !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+
+  const [year, month, day] = value.split('-').map(Number);
+  if (year < 1000 || year > 9999) return false;
+
+  const date = new Date(Date.UTC(year, month - 1, day));
+
+  return date.getUTCFullYear() === year &&
+    date.getUTCMonth() + 1 === month &&
+    date.getUTCDate() === day;
+}
+
+function todayLocal() {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 function json(response,status,data,extra={}) {
   response.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store',...extra});
   response.end(JSON.stringify(data));
@@ -99,6 +123,112 @@ export function createAoriServer({databasePath}={}) {
           await readJson(request);revoke(request);
           return json(response,200,state(null),{'Set-Cookie':'aori_session=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0'});
         }
+
+
+        if (path === '/api/reservations' &&
+            request.method === 'GET') {
+          const user = sessionUser(request);
+
+          if (!user) {
+            throw failure(401, 'Entre na sua conta para consultar suas reservas.');
+          }
+
+          const reservations = db.prepare(`
+            SELECT
+              r.ID AS id,
+              r.ID_Hospedagem AS stayId,
+              h.Nome AS stayName,
+              r.Data_Entrada AS checkin,
+              r.Data_Saida AS checkout,
+              r.Hospedes AS guests,
+              r.Criado_Em AS createdAt
+            FROM Reservas r
+            JOIN Hospedagens h ON h.ID = r.ID_Hospedagem
+            WHERE r.ID_Cliente = ?
+            ORDER BY r.Criado_Em DESC, r.ID DESC
+          `).all(user.id);
+
+          return json(response, 200, { reservations });
+        }
+
+        if (path === '/api/reservations' &&
+            request.method === 'POST') {
+          const user = sessionUser(request);
+
+          if (!user) {
+            throw failure(401, 'Entre na sua conta para reservar uma estadia.');
+          }
+
+          const body = await readJson(request);
+          const { stayId, checkin, checkout, guests } = body;
+
+          const stay = stays.find(item => item.id === stayId);
+
+          if (!stay) {
+            throw failure(404, 'Essa estadia não foi encontrada.');
+          }
+
+          if (!validReservationDate(checkin) ||
+              !validReservationDate(checkout) ||
+              checkin < todayLocal() ||
+              checkout <= checkin) {
+            throw failure(400, 'Informe um período de estadia válido.');
+          }
+
+          if (!Number.isInteger(guests) ||
+              guests < 1 ||
+              guests > stay.guests) {
+            throw failure(400, 'Quantidade de hóspedes inválida.');
+          }
+
+          db.exec('BEGIN IMMEDIATE');
+
+          try {
+            const conflict = db.prepare(`
+              SELECT ID
+              FROM Reservas
+              WHERE ID_Hospedagem = ?
+                AND Data_Entrada < ?
+                AND Data_Saida > ?
+              LIMIT 1
+            `).get(stayId, checkout, checkin);
+
+            if (conflict) {
+              throw failure(409, 'Essa hospedagem já está reservada nesse período.');
+            }
+
+            const result = db.prepare(`
+              INSERT INTO Reservas (
+                ID_Cliente,
+                ID_Hospedagem,
+                Data_Entrada,
+                Data_Saida,
+                Hospedes
+              ) VALUES (?, ?, ?, ?, ?)
+            `).run(user.id, stayId, checkin, checkout, guests);
+
+            const reservation = db.prepare(`
+              SELECT
+                ID AS id,
+                ID_Hospedagem AS stayId,
+                Data_Entrada AS checkin,
+                Data_Saida AS checkout,
+                Hospedes AS guests,
+                Criado_Em AS createdAt
+              FROM Reservas
+              WHERE ID = ?
+            `).get(result.lastInsertRowid);
+
+            db.exec('COMMIT');
+
+            return json(response, 201, { reservation });
+          } catch (error) {
+            db.exec('ROLLBACK');
+            throw error;
+          }
+        }
+
+
         if(path==='/api/favorites'&&request.method==='GET') {
           const user=sessionUser(request);
           if(!user) throw failure(401,'Entre na sua conta para ver seus lugares salvos.');

@@ -72,10 +72,17 @@
               <div class="property-guests-field"><label for="property-guests">Quem vem?</label><select id="property-guests" name="guests"></select></div>
               <a class="property-calendar-link" href="#calendario">Escolher pelo calendário <span aria-hidden="true">↗</span></a>
               <div class="property-price-summary" id="property-price-summary"><p class="property-summary-hint">Escolha as datas para imaginar a sua estadia.</p></div>
-              <button class="property-check-button" type="submit">Conferir período <span aria-hidden="true">→</span></button>
+              <button class="property-check-button" type="submit">Registrar reserva simulada <span aria-hidden="true">→</span></button>
               <p id="property-booking-feedback" class="property-booking-feedback" role="status" aria-live="polite"></p>
             </form>
-            <div class="property-booking-note"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/></svg><p>Uma prévia para explorar. Reservas e pagamentos ainda não estão conectados.</p></div>
+            <div class="property-reservations">
+             <button id="show-reservations" type="button" class="property-reservations-button">
+              Consultar minhas reservas
+             </button>
+              <p id="reservations-feedback" role="status" aria-live="polite"></p>
+             <ul id="reservations-list"></ul>
+            </div>
+            <div class="property-booking-note"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/></svg><p><p>As reservas são simulações para fins demonstrativos. Nenhum pagamento é realizado e nenhuma hospedagem real é contratada.</p></p></div>
           </div>
           <div class="property-aside-signature"><img src="/assets/brand/symbol/aori-symbol-original.svg" alt="" width="32" height="30"><p>Vá pelo lugar.<br>Fique pelo que sente.</p></div>
         </aside>

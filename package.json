@@ -10,5 +10,10 @@
     "check": "node --check public/app.js && node --check public/account.js && node --check public/estadia.js && node --check scripts/server.mjs && node --check scripts/database.mjs",
     "test": "node --test tests/*.test.mjs"
   },
-  "engines": { "node": ">=24" }
+  "engines": {
+    "node": ">=24"
+  },
+  "devDependencies": {
+    "jsdom": "^29.1.1"
+  }
 }
