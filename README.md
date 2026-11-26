@@ -190,13 +190,50 @@ npm run check
 
 **Resultados da verificação:**
 
-- 33 testes automatizados aprovados.
-- 90,64% de cobertura de linhas, superando a meta mínima de 75%.
+- 35 testes automatizados aprovados.
+- 91,95% de cobertura de linhas, superando a meta mínima de 75%.
 - Integração contínua configurada com GitHub Actions.
-- Análise estática com SonarQube Cloud e Quality Gate aprovado na branch `feat/reservas-simuladas`.
+- Análise estática com SonarQube Cloud e Quality Gate aprovado na branch `/main`.
 
 O banco preserva as tabelas originais `Clientes`, `Pagamentos` e `Funcionários`, acrescentando as estruturas necessárias para autenticação, hospedagens, favoritos e reservas simuladas.
 
 Consulte a [documentação da implementação](docs/implementacao-local.md) e a [estrutura do banco e API](database/README.md).
 
 **Referências:** [Issue #1](https://github.com/DudaAlvess/Aori/issues/1) · [Pull Request #2](https://github.com/DudaAlvess/Aori/pull/2).
+
+
+## 📸 Demonstração das reservas simuladas
+
+A funcionalidade de reservas do Aori permite que clientes autenticados registrem e consultem reservas, com validação de datas e bloqueio de períodos conflitantes.
+
+### 1. Preenchimento da reserva
+
+O cliente seleciona a hospedagem, informa as datas e a quantidade de hóspedes.
+
+![Formulário de reserva](docs/screenshots/01-reserva-formulario-preenchido.png)
+
+### 2. Confirmação da reserva
+
+O sistema registra a reserva simulada no banco de dados SQLite e apresenta uma mensagem de sucesso.
+
+![Reserva registrada](docs/screenshots/02-reserva-registrada-sucesso.png)
+
+### 3. Consulta das reservas
+
+O cliente autenticado pode consultar as reservas registradas em sua conta.
+
+![Consulta das reservas](docs/screenshots/03-consulta-minhas-reservas.png)
+
+### 4. Bloqueio de reservas conflitantes
+
+O sistema impede uma segunda reserva para a mesma hospedagem quando os períodos se sobrepõem.
+
+![Bloqueio de conflito](docs/screenshots/04-reserva-conflitante-bloqueada.png)
+
+### Resultados dos testes e análise de qualidade
+
+- 35 testes automatizados aprovados.
+- Cobertura geral de linhas (c8): 91,95%.
+- Cobertura geral (SonarCloud): 87,7%.
+- Cobertura do código novo (SonarCloud): 81,63%.
+- Quality Gate: **PASSED**.
