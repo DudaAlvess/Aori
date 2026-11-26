@@ -75,6 +75,32 @@ globalThis.fetch = async (url, options = {}) => {
       json: async () => ({ success: true })
     };
   }
+  
+  if (url.startsWith('/api/favorites/')) {
+  const id = decodeURIComponent(url.split('/').pop());
+  const next = new Set(currentAccount.favorites);
+
+  if (options.method === 'PUT') {
+    next.add(id);
+  } else if (options.method === 'DELETE') {
+    next.delete(id);
+  } else {
+    throw new Error(`Método inesperado: ${options.method}`);
+  }
+
+  currentAccount = {
+    ...currentAccount,
+    favorites: [...next]
+  };
+
+  return {
+    ok: true,
+    status: 200,
+    json: async () => ({
+      favorites: [...next]
+    })
+  };
+}
 
   throw new Error(`Requisição inesperada: ${url}`);
 };
@@ -259,6 +285,47 @@ test('login exibe erro e autentica quando as credenciais são válidas', async (
   assert.equal(authenticatedUser.id, 2);
   assert.equal(authenticatedUser.nome, 'Carlos Souza');
   assert.equal(account.user.id, 2);
+
+  await account.logout();
+});
+
+test('toggleFavorite adiciona e remove favoritos no frontend', async () => {
+  currentAccount = {
+    user: { id: 2, nome: 'Carlos Souza' },
+    favorites: []
+  };
+
+  await account.refresh();
+
+  const id = 'casa-do-horizonte';
+
+  assert.equal(account.favorites.has(id), false);
+
+  const added = await account.toggleFavorite(id);
+
+  assert.equal(added, true);
+  assert.equal(account.favorites.has(id), true);
+  assert.equal(account.isPending(id), false);
+
+  assert.ok(
+    requests.some(request =>
+      request.url === `/api/favorites/${id}` &&
+      request.options.method === 'PUT'
+    )
+  );
+
+  const removed = await account.toggleFavorite(id);
+
+  assert.equal(removed, true);
+  assert.equal(account.favorites.has(id), false);
+  assert.equal(account.isPending(id), false);
+
+  assert.ok(
+    requests.some(request =>
+      request.url === `/api/favorites/${id}` &&
+      request.options.method === 'DELETE'
+    )
+  );
 
   await account.logout();
 });

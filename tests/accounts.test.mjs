@@ -216,3 +216,30 @@ test('o servidor não publica banco, documentos internos ou travessia de diretó
     assert.doesNotMatch(response.text, /SQLite format 3|CREATE TABLE|import http/);
   }
 });
+
+test('cadastro rejeita formatos inválidos de e-mail', async t => {
+  const app = await fixture(t);
+
+  const invalidEmails = [
+    'sem-arroba',
+    '@example.test',
+    'teste@@example.test',
+    'teste example@example.test',
+    'teste@example.',
+    'teste@example',
+    'a'.repeat(255)
+  ];
+
+  for (const email of invalidEmails) {
+    const response = await app.request('/api/register', {
+      method: 'POST',
+      data: { ...clientA, email }
+    });
+
+    assert.equal(
+      response.status,
+      400,
+      `E-mail inválido aceito: ${email}`
+    );
+  }
+});
